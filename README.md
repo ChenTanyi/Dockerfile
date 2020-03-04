@@ -1,0 +1,1 @@
+# Collect for simple docker
