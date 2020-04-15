@@ -19,7 +19,7 @@ run apk update && \
 add aria2.conf /aria2-tmp/aria2.conf
 add entrypoint.sh /entrypoint.sh
 
-copy --from=builder /app/fileserver /usr/bin/
+copy --from=builder /usr/bin/fileserver /usr/bin/
 workdir /
 volume ["/aria2/conf", "/aria2/downloads", "/aria2/session"]
 expose 6800 80 51413
