@@ -1,4 +1,5 @@
-from chentanyi/fileserver:latest as builder
+arg FILESERVER_VERSION=latest
+from chentanyi/fileserver:${FILESERVER_VERSION} as builder
 
 from alpine:latest
 
