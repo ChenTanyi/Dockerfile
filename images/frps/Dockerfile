@@ -1,6 +1,6 @@
-from golang:1.13-alpine as builder
+from golang:buster as builder
 
-run apk update && apk add git && \
+run apt-get update && apt-get install -y git && \
     go get -v github.com/fatedier/frp/cmd/frps
 
 from alpine:latest

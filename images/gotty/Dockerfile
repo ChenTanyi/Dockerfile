@@ -1,4 +1,4 @@
-from golang:1.13-buster as builder
+from golang:buster as builder
 
 run apt-get update && apt-get install -y git && \
     go get -v github.com/yudai/gotty
