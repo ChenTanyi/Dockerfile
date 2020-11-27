@@ -3,12 +3,12 @@ from chentanyi/fileserver:${FILESERVER_VERSION} as builder
 
 from alpine:latest
 
-env ARIANG_VERSION 1.1.4
+env ARIANG_VERSION 1.1.7
 run apk update && \
     apk add --no-cache --update aria2 git && \
     mkdir -p /aria2/ariang /aria2/session /aria2/conf /aria2/webui /tmp && \
     cd /aria2/ariang && \
-    wget --no-check-certificate https://github.com/mayswind/AriaNg/releases/download/${ARIANG_VERSION}/AriaNg-${ARIANG_VERSION}.zip && \
+    wget https://github.com/mayswind/AriaNg/releases/download/${ARIANG_VERSION}/AriaNg-${ARIANG_VERSION}.zip && \
     unzip AriaNg-${ARIANG_VERSION}.zip && \
     rm -rf AriaNg-${ARIANG_VERSION}.zip && \
     cd /tmp && \
