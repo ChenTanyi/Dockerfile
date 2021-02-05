@@ -5,5 +5,10 @@ fi
 
 touch /aria2/session/aria2.session
 
-aria2c --conf-path=/aria2/conf/aria2.conf --rpc-secret="$RPC_SECRET"
+if [[ -z "$RPC_SECRET" ]]; then
+    aria2c --conf-path=/aria2/conf/aria2.conf
+else
+    aria2c --conf-path=/aria2/conf/aria2.conf --rpc-secret="$RPC_SECRET"
+fi
+
 fileserver $@
