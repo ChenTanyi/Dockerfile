@@ -1,7 +1,8 @@
 from golang:buster as builder
 
+env GO111MODULE on
 run apt-get update && apt-get install -y git && \
-    go get -v github.com/fatedier/frp/cmd/frps
+    go get -v github.com/fatedier/frp/cmd/frps@master
 
 from alpine:latest
 copy --from=builder /go/bin/frps /usr/local/bin/
