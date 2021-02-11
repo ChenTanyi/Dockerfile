@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: 
-        image: [aria2, frps, gotty, nginx]
+      matrix:
+        image: [aria2, frps, gotty, nginx, python]
     steps:
       - uses: actions/checkout@v2
         with:
