@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [aria2, frps, nginx, python]
+        image: [aria2, frps, nginx, python, v2proxy]
     steps:
       - uses: actions/checkout@v2
         with:
