@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 if [[ ! -f /aria2/conf/aria2.conf ]]; then
     cp /aria2-tmp/aria2.conf /aria2/conf/aria2.conf
 fi

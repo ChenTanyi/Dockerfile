@@ -1,0 +1,82 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "listen": "0.0.0.0",
+      "port": 1080,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "timeout": 300,
+        "udp": true
+      }
+    },
+    {
+      "protocol": "http",
+      "port": 8087,
+      "settings": {}
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "$PROTOCOL",
+      "settings": {
+        "vnext": [
+          {
+            "address": "$DOMAIN",
+            "port": 443,
+            "users": [
+              {
+                "id": "$UUID",
+                "encryption": "none",
+                "level": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/$REQ_PATH/"
+        },
+        "security": "tls"
+      }
+    },
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "domainMatcher": "mph",
+        "domain": [
+          "geosite:cn"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private",
+          "geoip:cn"
+        ],
+        "outboundTag": "direct"
+      }
+    ]
+  },
+  "dns": {
+    "servers": [
+      "8.8.8.8",
+      "8.8.4.4",
+      "localhost"
+    ]
+  }
+}
