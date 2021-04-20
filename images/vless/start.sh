@@ -22,15 +22,10 @@ cat << EOF > /config.json
             "level": 0
           }
         ],
-        "decryption": "none",
-        "fallbacks": [
-          {
-            "dest": "httpbin.org:80"
-          }
-        ]
+        "decryption": "none"
       },
       "streamSettings": {
-        "network": "tcp"
+        "network": "ws"
       }
     }
   ],
