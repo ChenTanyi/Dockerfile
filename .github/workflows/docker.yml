@@ -17,9 +17,17 @@ jobs:
     outputs:
       ref: ${{ steps.param.outputs.ref }}
       tag: ${{ steps.param.outputs.tag }}
+      images: ${{ steps.images.outputs.images }}
     steps:
       - id: param
         uses: t-actions/calc-release@master
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.param.outputs.ref }}
+      - id: images
+        run: |
+          IMAGES=$(python -c "import os, json; print(json.dumps(os.listdir('images')));")
+          echo "::set-output name=images::$IMAGES"
 
   docker-build:
     needs: param
@@ -27,7 +35,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [aria2, frps, nginx, python, v2proxy]
+        image: ${{ fromJson(needs.param.outputs.images) }}
+        platform: [linux/386, linux/amd64, linux/arm/v6, linux/arm/v7, linux/arm64, linux/ppc64le]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -42,7 +51,7 @@ jobs:
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile
-          platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le
+          platforms: ${{ matrix.platform }}
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.image }}:${{ needs.param.outputs.tag }}
