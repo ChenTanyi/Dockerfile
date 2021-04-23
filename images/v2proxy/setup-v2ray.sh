@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+wget https://github.com/chentanyi/v2release/releases/latest/download/v2ray-${TARGETOS}-${TARGETARCH}${TARGETVARIANT} -O /usr/local/bin/v2ray
+wget https://github.com/chentanyi/v2release/releases/latest/download/v2ctl-${TARGETOS}-${TARGETARCH}${TARGETVARIANT} -O /usr/local/bin/v2ctl
+chmod +x /usr/local/bin/v2ray /usr/local/bin/v2ctl
+
 export PROTOCOL=${PROTOCOL:-vless}
 
 ALL_ENV='$REQ_PATH $UUID $PROTOCOL'
