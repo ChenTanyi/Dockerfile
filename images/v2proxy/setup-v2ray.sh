@@ -7,7 +7,7 @@ chmod +x /usr/local/bin/v2ray /usr/local/bin/v2ctl
 
 export PROTOCOL=${PROTOCOL:-vless}
 
-ALL_ENV='$REQ_PATH $UUID $PROTOCOL'
+ALL_ENV='$PORT $REQ_PATH $UUID $PROTOCOL'
 envsubst "$ALL_ENV" < /usr/local/etc/v2ray/config.json.template > /usr/local/etc/v2ray/config.json
 envsubst "$ALL_ENV" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
