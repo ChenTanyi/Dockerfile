@@ -6,7 +6,7 @@
   },
   "inbounds": [
     {
-      "port": 8000,
+      "port": "env:PORT",
       "listen": "0.0.0.0",
       "protocol": "$PROTOCOL",
       "settings": {
@@ -21,7 +21,7 @@
       "streamSettings": {
         "network": "ws",
         "wsSettings": {
-          "path": "/$REQ_PATH/"
+          "path": "/$REQ_PATH"
         }
       }
     }
