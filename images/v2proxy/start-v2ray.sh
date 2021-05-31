@@ -19,7 +19,7 @@ set +a
 ALL_ENV='$REQ_PATH $UUID $PROTOCOL'
 for ENV_KEY in $ALL_ENV; do
     VALUE=$(eval echo \"$ENV_KEY\")
-    sed -i "s/$ENV_KEY/$VALUE/g" /usr/local/etc/v2ray/config.json
+    sed -i "s|$ENV_KEY|$VALUE|g" /usr/local/etc/v2ray/config.json
 done
 
 mkdir -p /var/log/v2ray/
