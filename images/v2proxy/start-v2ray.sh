@@ -12,6 +12,7 @@ set -a
 PROTOCOL=${PROTOCOL:-vless}
 if [ -n "$REQ_PATH" ]; then
     REQ_PATH="${REQ_PATH%/}/"
+    REQ_PATH="${REQ_PATH#/}"
 fi
 set +a
 

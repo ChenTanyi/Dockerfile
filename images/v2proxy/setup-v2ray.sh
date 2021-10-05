@@ -10,6 +10,7 @@ rm -rf /tmp/v2ray
 
 export PROTOCOL=${PROTOCOL:-vless}
 export REQ_PATH="${REQ_PATH%/}/"
+export REQ_PATH="${REQ_PATH#/}"
 
 ALL_ENV='$PORT $REQ_PATH $UUID $PROTOCOL'
 envsubst "$ALL_ENV" < /usr/local/etc/v2ray/config.json.template > /usr/local/etc/v2ray/config.json
