@@ -4,10 +4,54 @@
     "error": "/var/log/v2ray/error.log",
     "loglevel": "error"
   },
+  "reverse": {
+    "portals": [
+      {
+        "tag": "portal",
+        "domain": "reverse.v2ray.home.arpa"
+      }
+    ]
+  },
   "inbounds": [
     {
       "port": "env:PORT",
-      "listen": "0.0.0.0",
+      "tag": "diversion",
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "$UUID",
+            "level": 0
+          }
+        ],
+        "decryption": "none",
+        "fallbacks": [
+          {
+            "dest": 7999
+          },
+          {
+            "path": "/$REQ_PATH",
+            "dest": 8000
+          },
+          {
+            "path": "/$PORTAL_PATH",
+            "dest": 8001
+          }
+        ]
+      }
+    },
+    {
+      "port": 7999,
+      "tag": "block",
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1",
+        "port": 8000
+      }
+    },
+    {
+      "port": 8000,
+      "tag": "request",
       "protocol": "$PROTOCOL",
       "settings": {
         "clients": [
@@ -24,11 +68,61 @@
           "path": "/$REQ_PATH"
         }
       }
+    },
+    {
+      "port": 8001,
+      "tag": "reverse",
+      "protocol": "$PROTOCOL",
+      "settings": {
+        "clients": [
+          {
+            "id": "$UUID",
+            "level": 0
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/$PORTAL_PATH"
+        }
+      }
     }
   ],
   "outbounds": [
     {
       "protocol": "freedom"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "block",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      }
     }
-  ]
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "domainMatcher": "mph",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "diversion",
+          "block"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "inboundTag": [
+          "reverse"
+        ],
+        "outboundTag": "portal"
+      }
+    ]
+  }
 }

@@ -10,14 +10,15 @@ rm -rf /tmp/v2ray
 
 set -a
 PROTOCOL=${PROTOCOL:-vless}
-if [ -n "$REQ_PATH" ]; then
-    REQ_PATH="${REQ_PATH%/}/"
-    REQ_PATH="${REQ_PATH#/}"
-fi
+REQ_PATH="${REQ_PATH%/}/"
+REQ_PATH="${REQ_PATH#/}"
+PORTAL_PATH=${PORTAL_PATH:-portal}
+PORTAL_PATH="${PORTAL_PATH%/}/"
+PORTAL_PATH="${PORTAL_PATH#/}"
 set +a
 
 # alpine doesn't contain envsubst
-ALL_ENV='$REQ_PATH $UUID $PROTOCOL'
+ALL_ENV='$REQ_PATH $PORTAL_PATH $UUID $PROTOCOL'
 for ENV_KEY in $ALL_ENV; do
     VALUE=$(eval echo \"$ENV_KEY\")
     sed -i "s|$ENV_KEY|$VALUE|g" /usr/local/etc/v2ray/config.json

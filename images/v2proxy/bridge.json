@@ -1,0 +1,62 @@
+{
+  "log": {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "error"
+  },
+  "reverse": {
+    "bridges": [
+      {
+        "tag": "bridge",
+        "domain": "reverse.v2ray.home.arpa"
+      }
+    ]
+  },
+  "outbounds": [
+    {
+      "protocol": "freedom"
+    },
+    {
+      "tag": "internal",
+      "protocol": "$PROTOCOL",
+      "settings": {
+        "vnext": [
+          {
+            "address": "$DOMAIN",
+            "port": 443,
+            "users": [
+              {
+                "id": "$UUID",
+                "encryption": "none",
+                "level": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/$PORTAL_PATH"
+        },
+        "security": "tls"
+      }
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "domainMatcher": "mph",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "bridge"
+        ],
+        "domains": [
+          "full:reverse.v2ray.home.arpa"
+        ],
+        "outboundTag": "internal"
+      }
+    ]
+  }
+}
