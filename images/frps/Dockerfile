@@ -1,4 +1,4 @@
-from golang:buster as builder
+from golang:1.16 as builder
 
 env GO111MODULE on
 run apt-get update && apt-get install -y git && \

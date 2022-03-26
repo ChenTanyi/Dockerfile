@@ -1,9 +1,9 @@
-from golang:buster as builder
+from golang:1.15 as builder
 
 run apt-get update && apt-get install -y git && \
     go get -v github.com/yudai/gotty
 
-from debian:buster
+from debian:latest
 copy --from=builder /go/bin/gotty /usr/local/bin/
 
 run apt-get update && DEBIAN_FRONTEND=noninteractive \
