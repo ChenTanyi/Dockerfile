@@ -9,6 +9,9 @@ cd /
 rm -rf /tmp/v2ray
 
 set -a
+# ACCESS_LOG="/var/log/v2ray/access.log"
+# ERROR_LOG="/var/log/v2ray/error.log"
+LOG_LEVEL=${LOG_LEVEL:-error}
 PROTOCOL=${PROTOCOL:-vless}
 REQ_PATH="${REQ_PATH%/}/"
 REQ_PATH="${REQ_PATH#/}"
@@ -18,7 +21,7 @@ PORTAL_PATH="${PORTAL_PATH#/}"
 set +a
 
 # alpine doesn't contain envsubst
-ALL_ENV='$REQ_PATH $PORTAL_PATH $UUID $PROTOCOL'
+ALL_ENV='$REQ_PATH $PORTAL_PATH $UUID $PROTOCOL $LOG_LEVEL $ACCESS_LOG $ERROR_LOG'
 for ENV_KEY in $ALL_ENV; do
     VALUE=$(eval echo \"$ENV_KEY\")
     sed -i "s|$ENV_KEY|$VALUE|g" /usr/local/etc/v2ray/config.json
